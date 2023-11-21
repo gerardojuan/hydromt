@@ -4,6 +4,7 @@ import argparse
 import re
 from sys import version_info
 from typing import List
+from tomli_w import dump as dump_toml
 
 if version_info.minor >= 11:
     from tomllib import load
@@ -47,11 +48,13 @@ parser.add_argument("profile", default="dev,test", nargs="?")
 parser.add_argument("--output", "-o", default="environment.yml")
 parser.add_argument("--channels", "-c", default=None)
 parser.add_argument("--name", "-n", default=None)
+parser.add_argument(
+    "--manager", "-m", default="conda", choices=["conda", "pixi", "mamba"]
+)
 parser.add_argument("--py-version", "-p", default=None)
 parser.add_argument("-r", "--release", action="store_true")
 args = parser.parse_args()
 
-#
 with open("pyproject.toml", "rb") as f:
     toml = load(f)
 deps = toml["project"]["dependencies"]
@@ -95,24 +98,47 @@ if args.py_version is not None:
 if len(pip_deps) > 0:
     conda_deps.append("pip")
 
-# the list(set()) is to remove duplicates
-conda_deps_to_install_string = "\n- ".join(sorted(list(set(conda_deps))))
-channels_string = "\n- ".join(set(channels))
+if args.manager in ["conda", "mamba"]:
+    # the list(set()) is to remove duplicates
+    conda_deps_to_install_string = "\n- ".join(sorted(list(set(conda_deps))))
+    channels_string = "\n- ".join(set(channels))
 
-# create environment.yml
-env_spec = f"""name: {name}
+    # create environment.yml
+    env_spec = f"""name: {name}
 
-channels:
-- {channels_string}
+    channels:
+    - {channels_string}
 
-dependencies:
-- {conda_deps_to_install_string}
-"""
-if len(pip_deps) > 0:
-    pip_deps_to_install_string = "\n  - ".join(sorted(list(set(pip_deps))))
-    env_spec += f"""- pip:
-  - {pip_deps_to_install_string}
-"""
+    dependencies:
+    - {conda_deps_to_install_string}
+    """
+    if len(pip_deps) > 0:
+        pip_deps_to_install_string = "\n  - ".join(sorted(list(set(pip_deps))))
+        env_spec += f"""- pip:
+      - {pip_deps_to_install_string}
+    """
 
-with open(args.output, "w") as out:
-    out.write(env_spec)
+    with open(args.output, "w") as out:
+        out.write(env_spec)
+elif args.manager == "pixi":
+    with open("pixi.toml", "rb") as f:
+        pixi_toml = load(f)
+
+    if "dependencies" not in pixi_toml.keys():
+        pixi_toml["dependencies"] = {}
+    for dep in conda_deps:
+        m = re.match(r"([\w|-]+)(.*)", dep)
+        if m:
+            dep_name, dep_version = m.groups()
+            if dep_version is None or dep_version == "":
+                dep_version = "*"
+
+            pixi_toml["dependencies"][dep_name] = dep_version
+        else:
+            raise ValueError(f"could not parse dep: {dep}")
+
+    pixi_toml["tasks"]["pip_install"] = "pip install " + " ".join(pip_deps)
+    with open("pixi.toml", "wb") as out:
+        dump_toml(pixi_toml, out)
+else:
+    raise ValueError(f"Unknown manager type: {args.manager}")

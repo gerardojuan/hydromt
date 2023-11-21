@@ -124,13 +124,13 @@ pypi-twine = { cmd = ["python", "-m", "twine", "check", "dist/*"] }
 
 # clean
 clean = { depends_on = [
-  # "clean-env-files",
+  "clean-env-files",
   "clean-dist",
   "clean-docs-generated",
   "clean-docs-build",
   "clean-docs-exmaples",
 ] }
-# clean-env-files = { cmd = ["rm", "-f", "*environment.yml"] }
+clean-env-files = { cmd = ["rm", "-f", "*environment.yml"] }
 clean-dist = { cmd = ["rm", "-rf", "dist"] }
 clean-docs-generated = { cmd = ["rm", "-rf", "docs/_generated"] }
 clean-docs-build = { cmd = ["rm", "-rf", "docs/_build"] }
