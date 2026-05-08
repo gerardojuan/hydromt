@@ -1,0 +1,706 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" data-theme="light">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Creating a release &#8212; HydroMT  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/autodoc_pydantic.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/theme-deltares.css?v=d7afb10b" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'dev/core_dev/release';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.17.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://raw.githubusercontent.com/Deltares/hydromt/gh-pages/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '1.4.0';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="icon" href="../../_static/hydromt-icon.svg"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="API reference" href="../../api/api.html" />
+    <link rel="prev" title="Test and CI" href="test_ci.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="1.4.0.dev0" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="light">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+    
+    <img src="../../_static/hydromt-icon.svg" class="logo__image only-light" alt=""/>
+    <img src="../../_static/hydromt-icon.svg" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">HydroMT Core</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../about/intro.html">
+    About
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../overview/intro.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../user_guide/intro.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../intro.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../api/api.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../changelog.html">
+    What's new
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/Deltares/hydromt" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" class="icon-link-image" alt="GitHub"/></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://www.deltares.nl/en/" title="Deltares" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../_static/deltares-blue.svg" class="icon-link-image" alt="Deltares"/></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../about/intro.html">
+    About
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../overview/intro.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../user_guide/intro.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../intro.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../api/api.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../changelog.html">
+    What's new
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/Deltares/hydromt" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" class="icon-link-image" alt="GitHub"/></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://www.deltares.nl/en/" title="Deltares" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../_static/deltares-blue.svg" class="icon-link-image" alt="Deltares"/></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item pst-sidebar-collapse"><button id="pst-collapse-sidebar-button" aria-expanded="true" aria-controls="pst-primary-sidebar"><svg class="pst-icon svg-inline--fa" role="img" aria-hidden="true" focusable="false" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+    <path fill="currentColor" d="M3 15.5C2.36232 15.5 1.74874 15.2564 1.28478 14.8189C0.820828 14.3815 0.541576 13.7832 0.504167 13.1467L0.5 13L0.5 3C0.499965 2.36232 0.743605 1.74874 1.18107 1.28478C1.61854 0.820828 2.21676 0.541576 2.85333 0.504167L3 0.5L13 0.5C13.6377 0.499965 14.2513 0.743605 14.7152 1.18107C15.1792 1.61854 15.4584 2.21676 15.4958 2.85333L15.5 3L15.5 13C15.5 13.6377 15.2564 14.2513 14.8189 14.7152C14.3815 15.1792 13.7832 15.4584 13.1467 15.4958L13 15.5L3 15.5ZM3 13.8333L10.5 13.8333L10.5 2.16667L3 2.16667C2.79589 2.16669 2.59889 2.24163 2.44636 2.37726C2.29383 2.5129 2.19638 2.69979 2.1725 2.9025L2.16667 3L2.16667 13C2.16669 13.2041 2.24163 13.4011 2.37726 13.5536C2.5129 13.7062 2.69979 13.8036 2.9025 13.8275L3 13.8333ZM6.65583 10.325L6.5775 10.2558L4.91083 8.58917C4.76735 8.44567 4.68116 8.25476 4.66843 8.05223C4.65569 7.84971 4.71729 7.6495 4.84167 7.48917L4.91083 7.41083L6.5775 5.74417C6.72747 5.59471 6.9287 5.50794 7.14032 5.50148C7.35194 5.49502 7.55809 5.56935 7.7169 5.70937C7.8757 5.8494 7.97525 6.04463 7.99533 6.25539C8.01541 6.46616 7.95451 6.67667 7.825 6.84417L7.75583 6.9225L6.67917 8L7.75583 9.0775C7.89931 9.22099 7.98551 9.41191 7.99824 9.61443C8.01097 9.81695 7.94938 10.0172 7.825 10.1775L7.75583 10.2558C7.61234 10.3993 7.42142 10.4855 7.2189 10.4982C7.01638 10.511 6.81617 10.4494 6.65583 10.325Z"/>
+  </svg>
+  <span class="pst-collapse-sidebar-label">Collapse Sidebar</span>
+  <span class="pst-expand-sidebar-label">Expand Sidebar</span>
+</button></div>
+        <div class="sidebar-primary-item">
+
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Developer Guide</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../architecture/index.html">HydroMT Architecture</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../architecture/architecture.html">Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../architecture/conventions.html">HydroMT Design Conventions</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../plugin_dev/index.html">Plugin Developer Guide</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../plugin_dev/quickstart.html">Starting Your Own HydroMT Plugin</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../plugin_dev/custom_implementation/index.html">Implement your own HydroMT objects</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../plugin_dev/custom_implementation/model.html">Custom Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../plugin_dev/custom_implementation/component.html">Custom Components</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../plugin_dev/custom_implementation/catalog.html">Custom Data Catalogs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../plugin_dev/custom_implementation/data_source.html">Custom Data Sources</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../plugin_dev/custom_implementation/driver.html">Custom Drivers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../plugin_dev/custom_implementation/resolver.html">Custom Resolver</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../plugin_dev/custom_implementation/data_adapter.html">Custom DataAdapter</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="../plugin_dev/register.html">Linking your own custom objects to HydroMT core API</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../plugin_dev/testing.html">Testing your plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../plugin_dev/migrating_to_v1.html">Migrating to v1</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Core Developer Guide</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="dev_install.html">Developer installation guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="git_conventions.html">Issue conventions</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="code_conventions.html">Code conventions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="documentation.html">Adding Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test_ci.html">Test and CI</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Creating a release</a></li>
+
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../intro.html" class="nav-link">Developer Guide</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Core Developer’s guide</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Creating a release</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="creating-a-release">
+<span id="create-release"></span><h1>Creating a release<a class="headerlink" href="#creating-a-release" title="Link to this heading">#</a></h1>
+<p>Releases are produced by four GitHub Actions workflows that work together:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">create-release-branch.yml</span></code> — creates a long-lived <code class="docutils literal notranslate"><span class="pre">release/vX.Y</span></code> branch (major/minor only).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">create-release.yml</span></code> — tags the release on a release branch and creates the GitHub release (major / minor / patch / rc).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">post-release-cleanup.yml</span></code> — opens a follow-up PR after a release PR is merged into <code class="docutils literal notranslate"><span class="pre">main</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">publish-pypi.yml</span></code> — publishes to PyPI; runs automatically when a GitHub release is published.</p></li>
+</ul>
+<p>Before tagging a major, minor, or patch release, run the <a class="reference internal" href="#plugin-compat-test"><span class="std std-ref">plugin compatibility test</span></a> against the release branch.</p>
+<section id="major-minor-release">
+<h2>Major / minor release<a class="headerlink" href="#major-minor-release" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p>Go to the <code class="docutils literal notranslate"><span class="pre">Actions</span></code> tab on GitHub, select <strong>Create release branch (minor/major)</strong>, click <strong>Run workflow</strong> and choose <code class="docutils literal notranslate"><span class="pre">minor</span></code> or <code class="docutils literal notranslate"><span class="pre">major</span></code>.</p></li>
+<li><p>The workflow creates a <code class="docutils literal notranslate"><span class="pre">release/vX.Y</span></code> branch off <code class="docutils literal notranslate"><span class="pre">main</span></code> (e.g. <code class="docutils literal notranslate"><span class="pre">release/v1.4</span></code>), bumps the version to <code class="docutils literal notranslate"><span class="pre">X.Y.0</span></code>, and updates <code class="docutils literal notranslate"><span class="pre">docs/changelog.rst</span></code> and <code class="docutils literal notranslate"><span class="pre">docs/_static/switcher.json</span></code>. The branch is pushed but no PR is opened yet.</p></li>
+<li><p>Push any final fixes or changelog tweaks directly to the release branch. When you are happy with the release content, run the <strong>Create release</strong> workflow on this branch with type <code class="docutils literal notranslate"><span class="pre">major</span></code> or <code class="docutils literal notranslate"><span class="pre">minor</span></code>. This tags the branch HEAD as <code class="docutils literal notranslate"><span class="pre">vX.Y.0</span></code>, creates a GitHub release marked as latest, opens a PR from <code class="docutils literal notranslate"><span class="pre">release/vX.Y</span></code> into <code class="docutils literal notranslate"><span class="pre">main</span></code>, comments the <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> diff since the previous tag on that PR, and publishes the versioned docs to GitHub Pages.</p></li>
+<li><p>Publishing the GitHub release automatically triggers <code class="docutils literal notranslate"><span class="pre">publish-pypi.yml</span></code> which uploads the package to PyPI.</p></li>
+<li><p>Merge the release PR into <code class="docutils literal notranslate"><span class="pre">main</span></code> <strong>WITHOUT SQUASHING</strong>! This automatically triggers <strong>Post-release cleanup</strong>, which opens a follow-up PR resetting the version in source to <code class="docutils literal notranslate"><span class="pre">X.Y.Z.dev0</span></code> and adding a fresh <code class="docutils literal notranslate"><span class="pre">Unreleased</span></code> section to <code class="docutils literal notranslate"><span class="pre">docs/changelog.rst</span></code>.</p></li>
+<li><p>The newly published PyPI package will trigger a new PR to the <a class="reference external" href="https://github.com/conda-forge/hydromt-feedstock">HydroMT feedstock repo on conda-forge</a>. Use the <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> diff comment from step 3 to check whether <code class="docutils literal notranslate"><span class="pre">meta.yml</span></code> needs updating. Merge the PR to release on conda-forge.</p></li>
+<li><p>Celebrate the new release!</p></li>
+</ol>
+</section>
+<section id="patch-release">
+<span id="create-patch-release"></span><h2>Patch release<a class="headerlink" href="#patch-release" title="Link to this heading">#</a></h2>
+<p>Patch releases are made against an already-existing <code class="docutils literal notranslate"><span class="pre">release/vX.Y</span></code> branch rather than creating a new one.</p>
+<ol class="arabic simple">
+<li><p>Go to the <code class="docutils literal notranslate"><span class="pre">Actions</span></code> tab on GitHub, select <strong>Create release</strong>, click <strong>Run workflow</strong>.</p></li>
+<li><p>Enter the release branch (e.g. <code class="docutils literal notranslate"><span class="pre">release/v1.4</span></code>) and choose <code class="docutils literal notranslate"><span class="pre">patch</span></code> as the release type.</p></li>
+<li><p>The workflow increments the patch version (reading the current version from the branch), updates the changelog and <code class="docutils literal notranslate"><span class="pre">switcher.json</span></code>, commits the bump, tags HEAD as <code class="docutils literal notranslate"><span class="pre">vX.Y.Z</span></code>, creates a GitHub release marked as latest, opens a PR from <code class="docutils literal notranslate"><span class="pre">release/vX.Y</span></code> into <code class="docutils literal notranslate"><span class="pre">main</span></code>, comments the <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> diff since the previous tag, and publishes the versioned docs to GitHub Pages. The package is published to PyPI automatically.</p></li>
+<li><p>Merge the auto-opened PR. Once merged, <strong>Post-release cleanup</strong> opens its follow-up PR.</p></li>
+</ol>
+</section>
+<section id="release-candidate">
+<span id="create-pre-release"></span><h2>Release candidate<a class="headerlink" href="#release-candidate" title="Link to this heading">#</a></h2>
+<p>Release candidates are feature-complete builds expected to become the final release unless critical issues are found. They are produced from a <code class="docutils literal notranslate"><span class="pre">release/vX.Y</span></code> branch using the same <strong>Create release</strong> workflow.</p>
+<ol class="arabic">
+<li><p>Go to the <code class="docutils literal notranslate"><span class="pre">Actions</span></code> tab on GitHub, select <strong>Create release</strong>, click <strong>Run workflow</strong>.</p></li>
+<li><p>Enter the release branch (e.g. <code class="docutils literal notranslate"><span class="pre">release/v1.4</span></code>) and choose <code class="docutils literal notranslate"><span class="pre">rc</span></code> as the release type.</p></li>
+<li><p>The workflow computes the next available rc version of the form <code class="docutils literal notranslate"><span class="pre">X.Y.ZrcN</span></code> based on existing tags, commits the version bump on the release branch, tags it as <code class="docutils literal notranslate"><span class="pre">vX.Y.ZrcN</span></code> and creates a GitHub <em>pre-release</em>. The package is published to PyPI automatically.</p></li>
+<li><p>Anyone can install the release candidate with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">hydromt</span><span class="o">==</span><span class="n">X</span><span class="o">.</span><span class="n">Y</span><span class="o">.</span><span class="n">ZrcN</span>
+</pre></div>
+</div>
+<p>The exact install command is shown in the body of the GitHub pre-release.</p>
+</li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Release candidates are built from a <code class="docutils literal notranslate"><span class="pre">release/vX.Y</span></code> branch only. They share the same long-lived branch as the eventual full release, so the rc commits become part of the release history.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Pre-release versions are marked as pre-releases on GitHub and are not promoted as the latest stable release. They are intended for testing purposes only. Do not use a release candidate as the basis for a full release; run <strong>Create release</strong> with type <code class="docutils literal notranslate"><span class="pre">major</span></code> / <code class="docutils literal notranslate"><span class="pre">minor</span></code> / <code class="docutils literal notranslate"><span class="pre">patch</span></code> to produce the actual release.</p>
+</div>
+</section>
+</section>
+<section id="plugin-compatibility-test">
+<span id="plugin-compat-test"></span><h1>Plugin compatibility test<a class="headerlink" href="#plugin-compatibility-test" title="Link to this heading">#</a></h1>
+<p>Before tagging a major, minor, or patch release, you must run the downstream plugin compatibility test against the release branch.
+This is part of the release gate.
+It checks whether the new HydroMT wheel still works with a set of mature plugins.</p>
+<p>The workflow builds the actual wheel that would be published on PyPI and installs that wheel into each plugin’s Pixi environment.
+We do not use an editable install.
+This makes sure we test the real release artifact, including packaging metadata and included data files.</p>
+<p>For each plugin, the workflow runs in two modes.</p>
+<p>In the first mode, HydroMT is installed with <code class="docutils literal notranslate"><span class="pre">--no-deps</span></code> (<code class="docutils literal notranslate"><span class="pre">deps=false</span></code>).
+This upgrades only the HydroMT wheel and keeps the plugin’s existing, already solved environment unchanged.
+This simulates a user upgrading HydroMT in an existing environment.
+If this fails, it means the upgrade is not fully drop-in compatible.
+These failures must be reviewed, but they are not automatically release blockers.</p>
+<p>In the second mode, HydroMT is installed allowing dependency updates (<code class="docutils literal notranslate"><span class="pre">deps=true</span></code>).
+This allows the environment to re-solve and update third-party packages if needed.
+This simulates a clean installation.
+If this fails, the release is considered broken and must not be finalised.
+These failures are release blockers.</p>
+<section id="how-to-run-the-compatibility-test">
+<h2>How to run the compatibility test<a class="headerlink" href="#how-to-run-the-compatibility-test" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p>Make sure your release branch (for example <code class="docutils literal notranslate"><span class="pre">release/vX.Y</span></code>) is up to date.</p></li>
+<li><p>Go to the GitHub Actions tab.</p></li>
+<li><p>Select the <strong>Downstream plugin compatibility</strong> workflow.</p></li>
+<li><p>Click <strong>Run workflow</strong> and choose the release branch.</p></li>
+</ol>
+<p>If the <code class="docutils literal notranslate"><span class="pre">with</span> <span class="pre">dependencies</span></code> run fails, you must fix the problem before continuing the release.</p>
+<p>If the <code class="docutils literal notranslate"><span class="pre">no-deps</span></code> run fails, review the failure and decide what to do.
+You may need to restore backward compatibility in core, coordinate a plugin update, or accept that upgrading HydroMT requires re-solving the environment.</p>
+<p>Do not finalise the release until all blocking failures are resolved and advisory failures have been reviewed.</p>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="test_ci.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Test and CI</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../../api/api.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">API reference</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Creating a release</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#major-minor-release">Major / minor release</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#patch-release">Patch release</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#release-candidate">Release candidate</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#plugin-compatibility-test">Plugin compatibility test</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-run-the-compatibility-test">How to run the compatibility test</a></li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright Deltares.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.17.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
